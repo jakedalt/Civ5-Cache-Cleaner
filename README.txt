@@ -17,18 +17,21 @@ Library automatically clears the cache, shows the notification, and launches!
 
 STEP-BY-STEP SETUP (Takes 30 seconds):
 --------------------------------------------------------------------------------
-1. Open Steam and go to your LIBRARY.
-2. Right-click "Sid Meier's Civilization V" and click "Properties...".
-3. In the "General" tab, look for the "Launch Options" box at the very bottom.
-4. Copy & paste the following line (including quotes and %command%):
+1. In the extracted folder, double-click "Copy-Steam-Launch-Option.bat".
+   (This automatically formats and copies the exact command to your clipboard!)
 
-   "%USERPROFILE%\Documents\GitHub\Civ5-Cache-Cleaner\Launch-Civ5-ClearCache.bat" %command%
+   - OR manually: Hold Shift, right-click "Launch-Civ5-ClearCache.bat", 
+     select "Copy as path", and add a space and %command% at the end.
 
-   (Note: %USERPROFILE% automatically resolves to your Windows user account,
-   or you can paste the full path like:
-   "C:\Users\YourUsername\Documents\GitHub\Civ5-Cache-Cleaner\Launch-Civ5-ClearCache.bat" %command%)
+2. Open Steam and go to your LIBRARY.
+3. Right-click "Sid Meier's Civilization V" and click "Properties...".
+4. In the "General" tab, look for the "Launch Options" box at the very bottom.
+5. Paste (Ctrl+V) the command into the box.
 
-5. Close the Properties window.
+   Format:
+   "<Path to where you extracted this>\Launch-Civ5-ClearCache.bat" %command%
+
+6. Close the Properties window.
 
 THAT'S IT! 
 From now on, whenever you click "PLAY" in Steam:
