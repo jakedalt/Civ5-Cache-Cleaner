@@ -18,10 +18,11 @@ the Civ V DirectX options dialog!
 
 STEP-BY-STEP SETUP (Takes 30 seconds):
 --------------------------------------------------------------------------------
+!!! YOU DO NEED TO EXTRACT FROM ZIP, THE BAT FILES WILL NOT WORK WHILE ZIPPED !!!
 1. In this folder, double-click "Copy-Steam-Launch-Option.bat".
    (This automatically formats and copies the exact command to your clipboard!)
 
-YOU DO NEED TO EXTRACT FROM ZIP, THE BAT FILES WILL NOT WORK WHILE ZIPPED
+!!! YOU DO NEED TO EXTRACT FROM ZIP, THE BAT FILES WILL NOT WORK WHILE ZIPPED !!!
 
    - OR manually: Hold Shift, right-click "Clear-Cache-Only.bat", 
      select "Copy as path", and add a space and %command% at the end.
