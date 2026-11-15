@@ -1,6 +1,6 @@
 Add-Type -AssemblyName System.Windows.Forms
 
-$batPath = Join-Path $PSScriptRoot "Launch-Civ5-ClearCache.bat"
+$batPath = Join-Path $PSScriptRoot "Clear-Cache-Only.bat"
 $launchCommand = "`"$batPath`" %command%"
 
 try {
