@@ -3,10 +3,11 @@
     Civilization V Cache Cleaner & Launcher
 .DESCRIPTION
     Safely clears the Civ V cache directory before game startup and launches the game.
-    Supports standalone execution (desktop shortcut/double-click) or Steam Launch Options (%command%).
+    Supports standalone execution, -NoLaunch flag (clear only), or Steam Launch Options (%command%).
 #>
 
 param(
+    [switch]$NoLaunch,
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$SteamArgs
 )
@@ -93,17 +94,20 @@ CustomCachePath = $cachePath
 
         if (-not $pathFound) {
             Write-Host "`n[INFO] Cache folder was not found at standard locations." -ForegroundColor Yellow
-            $summaryMsg = "Did not clear cache: Civilization V cache folder was not found at the expected location.`n`nLaunching Civilization V..."
+            $summaryMsg = "Did not clear cache: Civilization V cache folder was not found at the expected location."
+            if (-not $NoLaunch) {
+                $summaryMsg += "`n`nLaunching Civilization V..."
+            }
         }
     }
 }
 
 # 4. Check if Civ V is currently running
-$runningProcesses = Get-Process -Name "CivilizationV", "CivilizationV_DX11", "CivilizationV_Tablet", "Launcher" -ErrorAction SilentlyContinue
+$runningProcesses = Get-Process -Name "CivilizationV", "CivilizationV_DX11", "CivilizationV_Tablet" -ErrorAction SilentlyContinue
 if ($runningProcesses) {
     Write-Host "`n[WARNING] Civilization V is currently running!" -ForegroundColor Red
     Write-Host "The game holds active file locks on database cache files." -ForegroundColor Yellow
-    Write-Host "Please close Civilization V first, then run this launcher again.`n" -ForegroundColor Yellow
+    Write-Host "Please close Civilization V first, then run this cleaner again.`n" -ForegroundColor Yellow
     
     $wshell = New-Object -ComObject WScript.Shell
     $wshell.Popup("Civilization V is currently running!`nPlease close the game first so the cache database can be unlocked and cleared.", 5, "Civ V Cache Cleaner", 48)
@@ -126,15 +130,19 @@ if ($pathFound) {
                 Write-Host "  [!] Could not delete $($item.Name): $($_.Exception.Message)" -ForegroundColor Red
             }
         }
-        $summaryMsg = "Civilization V cache cleared successfully!`nRemoved $deletedCount cached file(s) and folder(s).`n`nLaunching Civilization V..."
+        $summaryMsg = "Civilization V cache cleared successfully!`nRemoved $deletedCount cached file(s) and folder(s)."
+        if (-not $NoLaunch) {
+            $summaryMsg += "`n`nLaunching Civilization V..."
+        }
         Write-Host "`n[SUCCESS] Cache cleared ($deletedCount items removed)." -ForegroundColor Green
     } else {
-        $summaryMsg = "Did not clear cache: Nothing was found inside the cache folder.`n`nLaunching Civilization V..."
+        $summaryMsg = "Did not clear cache: Nothing was found inside the cache folder."
+        if (-not $NoLaunch) {
+            $summaryMsg += "`n`nLaunching Civilization V..."
+        }
         Write-Host "`n[INFO] Cache was not cleared because nothing was found inside." -ForegroundColor Green
     }
 }
-
-Write-Host "Launching Civilization V..." -ForegroundColor Cyan
 
 # 6. Non-blocking Notification (auto-closes in 3 seconds or on click)
 try {
@@ -145,16 +153,32 @@ try {
     # Fallback silently if COM is restricted
 }
 
-# 7. Launch Civilization V
+# 7. Launch Civilization V (skipped if -NoLaunch is specified)
+if ($NoLaunch) {
+    Write-Host "`nDone (launch skipped).`n" -ForegroundColor Green
+    return
+}
+
+Write-Host "Launching Civilization V..." -ForegroundColor Cyan
+
 if ($SteamArgs -and $SteamArgs.Length -gt 0) {
     # Launched via Steam Launch Options (%command%)
-    $exe = $SteamArgs[0]
+    $exe = $SteamArgs[0].Trim(' "''')
     $extraArgs = @()
     if ($SteamArgs.Length -gt 1) {
         $extraArgs = $SteamArgs[1..($SteamArgs.Length - 1)]
     }
     Write-Host "Launching via Steam intercept: $exe" -ForegroundColor Cyan
-    Start-Process -FilePath $exe -ArgumentList $extraArgs
+    try {
+        if ($extraArgs -and $extraArgs.Count -gt 0) {
+            Start-Process -FilePath $exe -ArgumentList $extraArgs
+        } else {
+            Start-Process -FilePath $exe
+        }
+    } catch {
+        Write-Host "`n[ERROR] Failed to start game executable: $($_.Exception.Message)" -ForegroundColor Red
+        throw
+    }
 } else {
     # Launched standalone (Desktop shortcut or double-clicking the .bat)
     $gameLaunched = $false
@@ -186,5 +210,4 @@ if ($SteamArgs -and $SteamArgs.Length -gt 0) {
     }
 }
 
-Write-Host "Done! You can close this window.`n" -ForegroundColor Green
-Start-Sleep -Seconds 1
+Write-Host "Done!`n" -ForegroundColor Green

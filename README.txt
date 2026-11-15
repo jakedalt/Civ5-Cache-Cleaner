@@ -13,41 +13,49 @@ boot, displays a desktop notification of cleared items, and launches the game.
 
 You don't need a separate desktop icon or have to remember to run a script.
 You can configure Steam so that simply clicking "PLAY" inside your Steam 
-Library automatically clears the cache, shows the notification, and launches!
+Library automatically clears the cache, shows the notification, and then opens 
+the Civ V DirectX options dialog!
 
 STEP-BY-STEP SETUP (Takes 30 seconds):
 --------------------------------------------------------------------------------
-1. Open Steam and go to your LIBRARY.
-2. Right-click "Sid Meier's Civilization V" and click "Properties...".
-3. In the "General" tab, look for the "Launch Options" box at the very bottom.
-4. Copy & paste the following line (including quotes and %command%):
+1. In this folder, double-click "Copy-Steam-Launch-Option.bat".
+   (This automatically formats and copies the exact command to your clipboard!)
 
-   "%USERPROFILE%\Documents\GitHub\Civ5-Cache-Cleaner\Launch-Civ5-ClearCache.bat" %command%
+   - OR manually: Hold Shift, right-click "Clear-Cache-Only.bat", 
+     select "Copy as path", and add a space and %command% at the end.
 
-   (Note: %USERPROFILE% automatically resolves to your Windows user account,
-   or you can paste the full path like:
-   "C:\Users\YourUsername\Documents\GitHub\Civ5-Cache-Cleaner\Launch-Civ5-ClearCache.bat" %command%)
+2. Open Steam and go to your LIBRARY.
+3. Right-click "Sid Meier's Civilization V" and click "Properties...".
+4. In the "General" tab, look for the "Launch Options" box at the very bottom.
+5. Paste (Ctrl+V) the command into the box.
 
-5. Close the Properties window.
+   Format:
+   "<Path to where you extracted this>\Clear-Cache-Only.bat" %command%
+
+6. Close the Properties window.
 
 THAT'S IT! 
 From now on, whenever you click "PLAY" in Steam:
   [1] The cache is checked & cleared automatically.
   [2] A notification pops up confirming how many temporary files were removed.
-  [3] Civilization V boots up cleanly with Steam tracking your playtime normally!
+  [3] Civilization V's DirectX selection window opens cleanly as normal!
 ################################################################################
 
 
 --------------------------------------------------------------------------------
-ALTERNATIVE WAYS TO LAUNCH: SHORTCUT OR BATCH FILE
+AVAILABLE SCRIPTS & WAYS TO USE
 --------------------------------------------------------------------------------
-If you prefer not using Steam Launch Options:
+* Clear-Cache-Only.bat
+  Use this for Steam Launch Options, or double-click anytime to clear the cache 
+  WITHOUT launching the game.
 
-* Method A: Double-click "Launch-Civ5-ClearCache.bat" anytime to clear cache 
-            and launch the game.
-* Method B: Double-click "Create-Desktop-Shortcut.bat" once. This places a 
-            "Civilization V (Clear Cache)" shortcut with the official game icon 
-            directly on your Desktop.
+* Launch-Civ5-ClearCache.bat
+  Clears the cache AND immediately starts Civilization V. Great if you don't 
+  use Steam Launch Options and want a standalone 1-click launcher.
+
+* Create-Desktop-Shortcut.bat
+  Creates a "Civilization V (Clear Cache)" desktop shortcut with the official 
+  game icon that runs Launch-Civ5-ClearCache.bat.
 
 
 --------------------------------------------------------------------------------
