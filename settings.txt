@@ -1,0 +1,7 @@
+# ==============================================================
+# Civilization V Cache Cleaner - Configuration
+# ==============================================================
+# Leave CustomCachePath blank to use automatic detection.
+# If your Civ V cache is in a custom location, paste the full path below.
+# Example: CustomCachePath = D:\MyGames\Sid Meier's Civilization 5\cache
+CustomCachePath = 
